@@ -71,6 +71,7 @@ class RelatedBlock extends BlockBase implements ContextAwarePluginInterface {
       $data[] = [
         'title' => $node->getTitle(),
         'id' => $node->id(),
+        'node' => node_view($node, 'teaser'),
       ];
     }
     // Return the render array for the block.
