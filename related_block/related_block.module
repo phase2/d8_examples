@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function related_block_theme($existing, $type, $theme, $path) {
+  return [
+    'related_block' => [
+      // Name of the html.twig file without extension.
+      'template' => 'related-block',
+      // MUST list the variables your template uses.
+      'variables' => [
+        'nodes' => [],
+      ],
+    ]
+  ];
+}

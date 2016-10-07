@@ -1,0 +1,4 @@
+name: Related Block
+core: 8.x
+type: module
+description: Example of a block showing related content.
