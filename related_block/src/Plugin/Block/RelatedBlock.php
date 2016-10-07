@@ -8,8 +8,6 @@ namespace Drupal\related_block\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Component\Plugin\ContextAwarePluginInterface;
-use Drupal\Component\Utility\Xss;
-use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Video;
 
 
 /**
