@@ -1,0 +1,45 @@
+# Migration for user accounts.
+id: example_user
+label: User Migration
+migration_group: example_general
+source:
+  plugin: d7_user
+
+destination:
+  plugin: entity:user
+
+process:
+  mail:
+    plugin: get
+    source: mail
+  status: status
+
+  name:
+    -
+      plugin: get
+      source: name
+    -
+      plugin: dedupe_entity
+      entity_type: user
+      field: name
+
+  roles:
+    plugin: static_map
+    source: roles
+    map:
+      2: authenticated
+      3: administrator
+      4: author
+      5: guest_author
+      6: content_approver
+
+  created: created
+  changed: changed
+
+migration_dependencies:
+  required: { }
+
+dependencies:
+  enforced:
+    module:
+      - example_migrate

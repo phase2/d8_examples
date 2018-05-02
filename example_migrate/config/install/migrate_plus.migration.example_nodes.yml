@@ -1,0 +1,29 @@
+# Migration for Example Nodes.
+id: example_node
+label: Example Nodes
+migration_group: example_node_group
+
+source:
+  plugin: d7_node
+  node_type: example_node
+
+destination:
+  plugin: entity:node
+
+process:
+  type:
+    plugin: default_value
+    default_value: example_node
+
+  field_related_nodes:
+    source: field_related_nodes
+    plugin: sub_process
+    process:
+      target_id:
+        plugin: migration_lookup
+        source: target_id
+        migration: example_blog_post
+
+migration_dependencies:
+  required:
+    - example_blog_post
