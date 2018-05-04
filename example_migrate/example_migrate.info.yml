@@ -1,0 +1,10 @@
+type: module
+name: 'Example Migrate'
+description: 'Example custom migrations'
+package: 'Example Migrate'
+core: '8.x'
+dependencies:
+ - drupal:migrate
+ - drupal:migrate_plus
+ - drupal:migrate_tools
+ - drupal:migrate_drupal

@@ -1,0 +1,47 @@
+# Migration Group for nodes
+id: example_nodes_group
+label: Nodes Group
+description: Common config for node migrations
+
+# Here we add any default configuration settings to be shared
+# among all migrations in the group.
+shared_configuration:
+  source:
+    key: migration_source_db
+
+  destination:
+    plugin: entity:node
+
+  process:
+    nid: nid
+    type: type
+    title: title
+    uid:
+      plugin: migration_lookup
+      source: node_uid
+      migration: example_user
+
+    status: status
+    created: created
+    changed: changed
+    comment: comment
+    promote: promote
+    sticky: sticky
+
+    field_body: field_body
+    'field_body/format':
+      plugin: default_value
+      default_value: 'filtered_html'
+
+    field_category:
+      plugin: migration_lookup
+      source: field_category
+      migration: example_category
+      no_stub: true
+
+migration_dependencies:
+  required:
+    - example_category
+    - example_user
+
+dependencies: { }
