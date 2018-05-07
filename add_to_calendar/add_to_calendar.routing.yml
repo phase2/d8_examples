@@ -1,0 +1,6 @@
+add_to_calendar.ics_file:
+  path: '/node/{node}/ics'
+  defaults:
+    _controller: '\Drupal\add_to_calendar\Controller\IcsFile::content'
+  requirements:
+    _permission: 'access content'
