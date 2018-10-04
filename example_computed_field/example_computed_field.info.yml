@@ -1,0 +1,4 @@
+type: module
+name: 'Example Computed Field'
+description: 'Adds a Display Date computed field to nodes as an example.'
+core: '8.x'

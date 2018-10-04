@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Provide an example of a computed field.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function example_computed_field_entity_base_field_info(EntityTypeInterface $entity_type) {
+  if ($entity_type->id() === 'node') {
+    // Add a computed field to nodes.
+    // First, specify the type of field you want to create.
+    // Field types are defined at https://www.drupal.org/docs/8/api/entity-api/fieldtypes-fieldwidgets-and-fieldformatters.
+    $fields['node_display_date'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Computed Display Date'))
+      ->setComputed(TRUE)
+      // Point to the Field Plugin you create for this field.
+      ->setClass('\Drupal\example_computed_field\Field\NodeDisplayDate')
+      // Allow the field to be added to node view displays.
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'weight' => -5,
+      ]);
+
+    return $fields;
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function example_computed_field_views_data_alter(array &$data) {
+  // Make the computed field available to Views.
+  $data['node']['node_display_date'] = [
+    'field' => [
+      'title' => t('Computed Display Date'),
+      // id matches the @ViewsField annotation in Plugin/views/field.
+      'id' => 'node_display_date',
+    ],
+  ];
+}
