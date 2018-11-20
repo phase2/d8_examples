@@ -32,7 +32,15 @@ class RelatedBlock extends BlockBase implements ContextAwarePluginInterface {
    */
   public function build() {
     // Retrieve the node context.
+    /** @var \Drupal\node\NodeInterface $node */
     $node = $this->getContextValue('node');
+
+    // Demonstrates usage of `assert()` to give better feedback during
+    // development if implicit assumptions aren't valid. When `zend.assertions`
+    // is set to `-1` (production setting), this code is never evaluated so
+    // it doesn't impact production performance.
+    assert($node->hasField('field_related_events'), 'Node of type ' . $node->getType() . ' is missing the field_related_events field.');
+    assert($node->hasField('field_tags'), 'Node of type ' . $node->getType() . ' is missing the field_tags field.');
 
     // Fetch the node ids of the curated field list.
     $field_curated = $node->field_related_events->getValue();
