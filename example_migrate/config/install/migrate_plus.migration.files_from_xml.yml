@@ -1,0 +1,88 @@
+id: files_from_xml
+label: 'Files Migration From XML'
+status: true
+migration_group: example_general
+source:
+  scheme: public
+  constants:
+    source_base_path: 'private://legacy'
+    dest_base_path: 'public://legacy'
+
+  urls: 'http://www.examplesite.org/import-test-files.xml'
+  data_fetcher_plugin: http
+  item_selector: 'file'
+
+  fields:
+    -
+      name: source_id
+      label: Unique content ID
+      selector: itemid
+    -
+      name: path
+      label: Path
+      selector: path
+    -
+      name: filename
+      label: FileName
+      selector: filename
+  ids:
+    source_id:
+      type: integer
+
+destination:
+  plugin: entity:file
+
+process:
+  filename: filename
+
+  # Pseudo-fields to clean out extraneous unwanted file types. Not actually imported data.
+  type_cleanup:
+    -
+      plugin: concat
+      delimiter: ''
+      source:
+        - constants/source_base_path
+        - path
+    -
+      plugin: skip_by_file_type
+      method: row
+      value:
+        - 'text/plain'
+        - 'application/octet-stream'
+        - 'image/x-ms-bmp'
+        - 'text/x-c++'
+        - 'text/css'
+
+  # Source path and dest path are pseudo-fields for data munging purposes.
+  source_path:
+    -
+      plugin: concat
+      delimiter: ''
+      source:
+        - constants/source_base_path
+        - path
+    -
+      plugin: urlencode
+  dest_path:
+    -
+      plugin: concat
+      delimiter: ''
+      source:
+        - constants/dest_base_path
+        - path
+    -
+      plugin: urlencode
+
+  # This is the actual field being saved with the path and filename info.
+  uri:
+    plugin: file_copy
+    source:
+      - '@source_path'
+      - '@dest_path'
+
+  status:
+    plugin: default_value
+    default_value: 1
+  uid:
+    plugin: default_value
+    default_value: 1

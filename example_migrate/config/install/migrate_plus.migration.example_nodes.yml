@@ -10,11 +10,14 @@ source:
 destination:
   plugin: entity:node
 
+# These fields are in addition to the process fields defined in example_node_group.
 process:
+  # Process: type overrides the Process: type defined in the group.
   type:
     plugin: default_value
     default_value: example_node
 
+  # Migration: example_blog_post is another migration (not defined here) that you would be referencing.
   field_related_nodes:
     source: field_related_nodes
     plugin: sub_process
@@ -23,6 +26,22 @@ process:
         plugin: migration_lookup
         source: target_id
         migration: example_blog_post
+
+  # Skip on empty means the whole row will not come in if body field is empty. image_handler parses images in text:
+  # looks them up to see if there's a related media item, then makes a file entity and media entity if not.
+  'field_body/value':
+    -
+      plugin: skip_on_empty
+      method: row
+      source: field_body
+    -
+      plugin: image_handler
+
+  'field_body/format':
+    plugin: default_value
+    default_value: 'filtered_html'
+
+
 
 migration_dependencies:
   required:
