@@ -4,9 +4,9 @@ CALLPATH=`dirname $0`
 source "$CALLPATH/framework.sh"
 
 # Change these values as needed locally for the migration you're working on.
-TYPE=${1-chapter}
-GROUP=${2-ccf_web_pages}
-MODULE=${3-ccf_migrate}
+TYPE=${1-example_nodes}
+GROUP=${2-example_nodes_group}
+MODULE=${3-example_migrate}
 export NOOP=0
 
 # Stop the migration in case the process is stuck. Rarely needed, but fast.
