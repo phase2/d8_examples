@@ -28,11 +28,6 @@ shared_configuration:
     promote: promote
     sticky: sticky
 
-    field_body: field_body
-    'field_body/format':
-      plugin: default_value
-      default_value: 'filtered_html'
-
     field_category:
       plugin: migration_lookup
       source: field_category
